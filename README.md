@@ -19,7 +19,10 @@ This is an alpha version of the wallet, and it supports the basic features of th
 - [ ] Preview and claim staking rewards
 - [ ] Fully anonymise PEOS tokens with coinjoin
 - [ ] Use Mandel improvements to enhance the pEOS contract to full privacy mode
+- [ ] Distribute fees to holders as dividents for staking PEOS tokens
+- [ ] Bridge with Ethereum
 - [ ] ...
+
 
 
 # Disclaimer
