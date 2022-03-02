@@ -15,8 +15,8 @@ This is an alpha version of the wallet, and it supports the basic features of th
 - [x] Loading PEOS to UTXOs
 - [x] Sending back to EOS accounts
 - [x] Checking staking status
-- [ ] Staking and unstaking
-- [ ] Preview and claim staking rewards
+- [x] Staking and unstaking
+- [x] Preview and claim staking rewards
 - [ ] Fully anonymise PEOS tokens with coinjoin
 - [ ] Use Mandel improvements to enhance the pEOS contract to full privacy mode
 - [ ] Distribute fees to holders as dividents for staking PEOS tokens
