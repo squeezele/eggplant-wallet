@@ -1,0 +1,142 @@
+{
+  "name": "Eggplant",
+  "productName": "Eggplant Wallet",
+  "version": "0.1.2-alpha",
+  "description": "Privacy oriented, pEOS token, native wallet",
+  "main": ".webpack/main",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "makeintel": "electron-forge make --arch=x64",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts,.tsx .",
+    "typecheck": "tsc",
+    "lint-staged": "echo lint-staged"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Lemon Squeezed",
+    "email": "lemonsqz@protonmail.com"
+  },
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "icons/mac/icon.icns"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-dmg",
+          "platforms": [
+            "darwin"
+          ],
+          "config": {
+            "format": "ULFO"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "eggplantwallet",
+            "iconUrl": "https://your_site/favicon.ico",
+            "exe:": "eggplant.exe"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "devContentSecurityPolicy": "connect-src 'self' wss://* ws://* https://* 'unsafe-eval'",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "nodeIntegration": true,
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/renderer.ts",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.61",
+    "@types/crypto-js": "^4.1.0",
+    "@types/elliptic": "^6.4.14",
+    "@types/hdkey": "^2.0.0",
+    "@types/humanize-duration": "^3.27.1",
+    "@types/node-fetch": "^2.6.1",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@types/request": "^2.48.8",
+    "@types/sjcl": "^1.0.30",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "css-loader": "^6.0.0",
+    "electron": "16.0.6",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-icon-maker": "^0.0.5",
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "^2.20.0",
+    "fork-ts-checker-webpack-plugin": "^6.0.1",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.0.0",
+    "ts-loader": "^9.2.2",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "anchor-link": "^3.3.5",
+    "anchor-link-browser-transport": "^3.2.5",
+    "antd": "^4.18.2",
+    "assert": "^2.0.0",
+    "axios": "^0.25.0",
+    "bip39": "^3.0.4",
+    "bluebird": "^3.7.2",
+    "bufferutil": "^4.0.6",
+    "crypto-browserify": "^3.12.0",
+    "crypto-js": "^4.1.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "eosjs": "^22.1.0",
+    "eosjs-ecc": "^4.0.7",
+    "fast-sha256": "^1.3.0",
+    "hdkey": "^2.0.1",
+    "humanize-duration": "^3.27.1",
+    "mobx": "^6.3.12",
+    "mobx-react": "^7.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1",
+    "stream-browserify": "^3.0.0",
+    "utf-8-validate": "^5.0.8",
+    "websocket-demux": "^1.0.0",
+    "ws": "^8.4.1"
+  }
+}

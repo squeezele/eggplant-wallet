@@ -1,0 +1,16 @@
+
+@import '~antd/dist/antd.css';
+
+body {
+    overflow-y: hidden;
+}
+
+.app-bg {
+    background-color: #f4f0f7;
+}
+
+.refund-time {
+    font-size: small;
+    cursor: pointer;
+    color:crimson;
+}
