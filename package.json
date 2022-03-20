@@ -1,6 +1,6 @@
 {
   "name": "Eggplant",
-  "productName": "Eggplant Wallet",
+  "productName": "EggplantWallet",
   "version": "0.1.2-alpha",
   "description": "Privacy oriented, pEOS token, native wallet",
   "main": ".webpack/main",
@@ -23,7 +23,8 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "icons/mac/icon.icns"
+        "icon": "icons/mac/icon.icns",
+        "executableName": "Eggplant"
       },
       "makers": [
         {
@@ -38,7 +39,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "eggplantwallet",
+            "name": "Eggplant",
             "iconUrl": "https://your_site/favicon.ico",
             "exe:": "eggplant.exe"
           }
@@ -56,6 +57,18 @@
         {
           "name": "@electron-forge/maker-rpm",
           "config": {}
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "squeezele",
+              "name": "eggplant-wallet"
+            },
+            "prerelease": true
+          }
         }
       ],
       "plugins": [
@@ -88,6 +101,8 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "@electron-forge/plugin-webpack": "6.0.0-beta.61",
+    "@electron-forge/publisher-github": "^6.0.0-beta.63",
+    "@electron/universal": "^1.2.1",
     "@types/crypto-js": "^4.1.0",
     "@types/elliptic": "^6.4.14",
     "@types/hdkey": "^2.0.0",
