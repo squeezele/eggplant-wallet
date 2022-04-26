@@ -1,6 +1,6 @@
-# Eggplant Wallet for pEOS 
+# Official Wallet for pEOS 
 
-This is a community developed privacy oriented wallet for the EOSIO/Mandel platform. 
+This is the official privacy oriented wallet for the EOSIO/Mandel platform. 
 
 ## Current version
 
