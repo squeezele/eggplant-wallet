@@ -131,7 +131,10 @@ const getRefundPeos = async (account: string): Promise<IRefundData> => {
     const res = await axios.post(NODE_URL + '/v1/chain/get_table_rows', JSON.stringify(body));
 
     if (res.status != 200) {
-        return null;
+        return {
+            requestTime: 0,
+            refunding: 0
+        }
     }
 
     let rows = res.data.rows
@@ -142,7 +145,10 @@ const getRefundPeos = async (account: string): Promise<IRefundData> => {
         }
     } 
 
-    return null;
+    return {
+        requestTime: 0,
+        refunding: 0
+    }
 }
 
 
