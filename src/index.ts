@@ -38,7 +38,7 @@ const createWindow = (): void => {
   const template2 = [
     // { role: 'appMenu' }
     ...(process.platform === 'darwin' ? [{
-      label: "Eggplant Wallet",
+      label: "Official pEOS Wallet",
       submenu: [
         { role: 'about' },
         { type: 'separator' },
