@@ -1,7 +1,7 @@
 {
   "name": "Eggplant",
   "productName": "EggplantWallet",
-  "version": "0.1.4-alpha",
+  "version": "0.1.5-alpha",
   "description": "Privacy oriented, pEOS token, native wallet",
   "main": ".webpack/main",
   "scripts": {
