@@ -188,7 +188,7 @@ const EOSAccountInformation = observer(() => {
                         name="amount"
                         rules={[
                             {
-                                validator: (_, value) => parseFloat(value) <= eosAccounts.peosStaked ? Promise.resolve() : Promise.reject(new Error('Not enough funds on EOS wallet'))
+                                validator: (_, value) => parseFloat(value) <= eosAccounts.peosOnAccount ? Promise.resolve() : Promise.reject(new Error('Not enough funds on EOS wallet'))
                             },
                             {
                                 validator: (_, value) =>
@@ -217,7 +217,7 @@ const EOSAccountInformation = observer(() => {
                         name="amount"
                         rules={[
                             {
-                                validator: (_, value) => parseFloat(value) <= eosAccounts.peosOnAccount ? Promise.resolve() : Promise.reject(new Error('Not enough funds on EOS wallet'))
+                                validator: (_, value) => parseFloat(value) <= eosAccounts.peosStaked ? Promise.resolve() : Promise.reject(new Error('Must be less than your staked amount'))
                             },
                             {
                                 validator: (_, value) =>
