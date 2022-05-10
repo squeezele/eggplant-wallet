@@ -186,6 +186,8 @@ const PEOSSend = observer(() => {
 
         form.resetFields();
         sendScreen.setRows([]);
+        sendScreen.setTotalAmountSelected(0);
+        sendScreen.setFeesRequired(0);
 
         console.log('success:', res);
         setSendResult(res);
