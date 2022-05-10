@@ -1,15 +1,14 @@
 import * as demux from 'websocket-demux';
 import * as WebSocket from 'ws';
-import { UTXO } from './stores/utxo_store';
+import { UTXODto } from './stores/utxo_store';
 import { IActionValidationResult, IActionCostResult } from './eosdefs';
-import { getAmount } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Message {}
+interface Message { }
 
 interface UpdateUTXOMessage {
     cmd: string;
-    utxo: string;
+    utxo: UTXODto;
 }
 
 export interface IActionSubmitResult {
@@ -29,7 +28,7 @@ export const Connection = (_address: string): any => {
         connect: async (_utxos: any): Promise<void> => {
             utxos = _utxos;
             const handleMessage = (msg: Message): void => {
-                if(demux.process_message(msg)) {
+                if (demux.process_message(msg)) {
                     return;
                 }
 
@@ -56,7 +55,7 @@ export const Connection = (_address: string): any => {
                     console.log('onclose', event);
                     demux.socket_closed();
 
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         gConn.connect(utxos);
                     }, 2000);
                 };
@@ -77,7 +76,7 @@ export const Connection = (_address: string): any => {
             });
         },
 
-        getUTXOs: async (pks: string[]): Promise<UTXO[]> => {
+        getUTXOs: async (pks: string[]): Promise<UTXODto[]> => {
             const res = await demux.request_async(wss, {
                 cmd: 'listen_utxos',
                 utxos: pks,
@@ -85,15 +84,7 @@ export const Connection = (_address: string): any => {
 
             const utxos = res.payload.utxos;
 
-            utxos.map((utxo: any) => {
-                utxo.hd_index = 0;
-                utxo.unonymity_set = 0;
-                utxo.private_key = '';
-                utxo.comment = '';
-                utxo.amount = getAmount(utxo.amount);
-            })
-
-            return utxos as UTXO[];
+            return utxos as UTXODto[];
         },
 
         stopListenUTXOs: async (pks: string[]): Promise<void> => {

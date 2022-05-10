@@ -5,7 +5,6 @@ import { IdentityProof } from 'eosio-signing-request'
 import { formatAmount, getAmount } from "../utils";
 import { gConn, IActionSubmitResult } from '../rt';
 import axios from 'axios';
-import { getGlobalState } from "mobx/dist/internal";
 
 const ANCHOR_LINK_SESSION = 'anchor-link-session';
 const PEOS_CONTRACT = 'thepeostoken';

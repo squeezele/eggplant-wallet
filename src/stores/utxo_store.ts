@@ -6,7 +6,7 @@ import { ec as EC } from 'elliptic';
 import axios from 'axios';
 import HDNode from 'hdkey';
 import { gConn } from '../rt';
-import { encrypt, decrypt, getAmount } from '../utils';
+import { encrypt, decrypt, getAmount, formatAmount } from '../utils';
 
 export interface UTXO {
     id: number;
@@ -17,6 +17,12 @@ export interface UTXO {
     amount: number;
     payer: string;
     comment: string;
+}
+export interface UTXODto {
+    id: number;
+    pk: string,
+    amount: string;
+    payer: string;
 }
 
 interface ISaveData {
@@ -87,7 +93,7 @@ export const UTXOStore = (mnemonic: string) => {
 
         create_new(comment: string): UTXO {
             const privateKey = this.get_key(this.HDIndex);
-            const utxo = {
+            const utxo: UTXO = {
                 id: -1,
                 hd_index: this.HDIndex,
                 unonymity_set: 0,
@@ -127,7 +133,9 @@ export const UTXOStore = (mnemonic: string) => {
             return PrivateKey.fromElliptic(pair, keyType);
         },
 
-        updateUTXO(utxo: any) {
+        updateUTXO(utxo: UTXODto) {
+            this.remove(utxo.id);
+
             let updated = false;
             for(const i in this.utxos) {
                 const u: UTXO = this.utxos[i];
@@ -140,14 +148,22 @@ export const UTXOStore = (mnemonic: string) => {
             }
             
             if(!updated) {
+                // Find utxo with same key
+                let samePkUtxo: UTXO = null;
                 for(const i in this.utxos) {
                     const u: UTXO = this.utxos[i];
-                    if (u.pk === utxo.pk && u.id <= utxo.id) {
-                        u.id = utxo.id;
-                        u.amount = getAmount(utxo.amount);
-                        u.payer = utxo.payer;
+                    if (u.pk === utxo.pk) {
+                        samePkUtxo = u
                         break;
                     }
+                }
+
+                if (samePkUtxo) {
+                    let nu: UTXO = {...samePkUtxo}
+                    nu.id = utxo.id;
+                    nu.amount = getAmount(utxo.amount);
+                    nu.payer = utxo.payer;
+                    this.utxos.push(nu);
                 }
             }
 
@@ -222,38 +238,39 @@ export const UTXOStore = (mnemonic: string) => {
             console.log('Sync with blockchain');
             this.updatePriceInEOS();
             this.updatePriceInUSD();
+
+            this.clear();
+
             for(let i = 0; i < this.HDIndex; i += 1 ) {
                 const privateKey = this.get_key(i);
                 const publicKey = privateKey.getPublicKey().toLegacyString();
 
-                const bUTXO = await gConn.getUTXOs([publicKey]);
+                const bUTXO: UTXODto[] = await gConn.getUTXOs([publicKey]);
 
                 if (bUTXO.length === 0) {
                     bUTXO.push({
                         id: 0,
                         pk: publicKey,
-                        amount: 0,
+                        amount: formatAmount(0, 'PEOS'),
                         payer: '',
                     });
 
                     this.removeByPk(publicKey);
-
-                    continue;
                 }
 
-                bUTXO.map((bu: UTXO) => {
-                    const nu = {
+                bUTXO.map((bu: UTXODto) => {
+                    const nu: UTXO = {
                         id: bu.id,
                         hd_index: i,
                         unonymity_set: 0,
                         pk: privateKey.getPublicKey().toLegacyString(),
                         private_key: privateKey,
-                        amount: bu.amount,
+                        amount: getAmount(bu.amount),
                         comment: '',
                         payer: bu.payer,
                     };
 
-                    this.updateUTXO(nu);
+                    this.utxos.push(nu);
                 });
             }
             this.save();

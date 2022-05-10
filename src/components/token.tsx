@@ -6,7 +6,11 @@ import { formatAmount } from '../utils';
 import { SwapOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 
-const TokenComponent = observer((props: any) => {
+export interface TokenComponentProps {
+    amount: number;
+}
+
+const TokenComponent = observer((props: TokenComponentProps) => {
     const { utxos } = useStore();
     const [ type, setType ] = useState(0);
 

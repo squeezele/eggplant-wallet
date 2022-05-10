@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useStore } from '../stores';
 import { observer } from 'mobx-react';
-import { UTXO } from '../stores/utxo_store';
+import { UTXO, UTXODto } from '../stores/utxo_store';
 import { Button, Table } from 'antd';
 import { gConn } from '../rt';
 
@@ -9,7 +9,6 @@ const PEOSReceive = observer(() => {
     const { utxos } = useStore();
 
     const rUTXO = [] as UTXO[];
-
     utxos.activeReceiveAddresses.map(hdIndex => {
         rUTXO.push(utxos.getByHDIndex(hdIndex));
     });
@@ -37,10 +36,10 @@ const PEOSReceive = observer(() => {
 
     const onClick = async () => {
         const u = utxos.create_receive_address('');
-        const bUTXO = await gConn.getUTXOs([u.pk]);
+        const bUTXO: UTXODto[] = await gConn.getUTXOs([u.pk]);
 
         if (bUTXO.length > 0) {
-            bUTXO.forEach(async (utxo: any)=> await utxos.updateUTXO(utxo));
+            bUTXO.forEach(async (utxo: UTXODto)=> await utxos.updateUTXO(utxo));
         }
     };
 

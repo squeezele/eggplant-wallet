@@ -12,6 +12,7 @@ import { Signature } from 'anchor-link';
 import sha256 from 'fast-sha256';
 import { gConn, IActionSubmitResult } from '../rt';
 import TokenComponent from './token';
+import { UTXO } from '../stores/utxo_store';
 
 const makeTransferWithFees = async (
     formData: ISendFormData, 
@@ -87,7 +88,7 @@ const UTXOTable = observer(() => {
 
         let totalInputAmount = 0.0;
         sendScreen.selectedUTXORows.map(row=>{
-            const utxo = utxos.getById(row);
+            const utxo: UTXO = utxos.getById(row);
             totalInputAmount += utxo.amount;
         });
 
