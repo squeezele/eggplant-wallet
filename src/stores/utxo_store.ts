@@ -239,8 +239,7 @@ export const UTXOStore = (mnemonic: string) => {
             this.updatePriceInEOS();
             this.updatePriceInUSD();
 
-            this.clear();
-
+            let newUtxos: UTXO[] = [];
             for(let i = 0; i < this.HDIndex; i += 1 ) {
                 const privateKey = this.get_key(i);
                 const publicKey = privateKey.getPublicKey().toLegacyString();
@@ -254,8 +253,6 @@ export const UTXOStore = (mnemonic: string) => {
                         amount: formatAmount(0, 'PEOS'),
                         payer: '',
                     });
-
-                    this.removeByPk(publicKey);
                 }
 
                 bUTXO.map((bu: UTXODto) => {
@@ -270,10 +267,14 @@ export const UTXOStore = (mnemonic: string) => {
                         payer: bu.payer,
                     };
 
-                    this.utxos.push(nu);
+                    newUtxos.push(nu);
                 });
             }
+            this.utxos.clear();
+            this.utxos.push(...newUtxos);
+
             this.save();
+            console.log('Sync with blockchain finished');
         },
 
         async save() {
